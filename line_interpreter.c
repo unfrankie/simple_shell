@@ -14,7 +14,7 @@ char *line_interpreter(void)
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "$ ", 2);
 	i = getline(&l, &length, stdin);
-	if ( i == -1)
+	if (i == -1)
 	{
 		free(l);
 		return (NULL);

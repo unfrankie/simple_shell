@@ -8,6 +8,7 @@
 void array_clearer(char **a)
 {
 	int i;
+
 	if (!a)
 		return;
 	for (i = 0; a[i]; i++)

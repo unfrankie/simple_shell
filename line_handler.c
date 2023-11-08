@@ -76,5 +76,5 @@ int shell_exe(char **var, char **cmd)
 		waitpid(c, &stat, 0);
 		array_clearer(cmd);
 	}
-	return(WEXITSTATUS(stat));
+	return (WEXITSTATUS(stat));
 }
