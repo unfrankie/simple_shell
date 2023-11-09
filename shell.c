@@ -12,7 +12,7 @@ char *line_interpreter(void)
 	char *l = NULL;
 
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "$ ", 2);
+		write(STDOUT_FILENO, INITIATOR, 2);
 	i = getline(&l, &length, stdin);
 	if (i == -1)
 	{
@@ -30,13 +30,13 @@ char *line_interpreter(void)
 
 char **line_handler(char *l)
 {
-	char *handler = NULL, *mem = NULL, **cmd = NULL, sep[] = " \t\n";
+	char *handler = NULL, *mem = NULL, **cmd = NULL;
 	int i = 0, c = 0;
 
 	if (!l)
 		return (NULL);
 	mem = _strdup(l);
-	handler = strtok(mem, sep);
+	handler = strtok(mem, SEPARATOR);
 	if (handler == NULL)
 	{
 		free(l);
@@ -47,7 +47,7 @@ char **line_handler(char *l)
 	while (handler)
 	{
 		c++;
-		handler = strtok(NULL, sep);
+		handler = strtok(NULL, SEPARATOR);
 	}
 	free(mem);
 	mem = NULL;
@@ -58,11 +58,11 @@ char **line_handler(char *l)
 		l = NULL;
 		return (NULL);
 	}
-	handler = strtok(l, sep);
+	handler = strtok(l, SEPARATOR);
 	while (handler)
 	{
 		cmd[i] = _strdup(handler);
-		handler = strtok(NULL, sep);
+		handler = strtok(NULL, SEPARATOR);
 		i++;
 	}
 	free(l);
