@@ -68,3 +68,25 @@ void reverse_string(char *str, int len)
 		e--;
 	}
 }
+
+/**
+  * error_index - display error command not found
+  * @user: user
+  * @index: shell line index
+  * @cmd: command to be tested
+  */
+void print_error(char *user, int index, char *cmd)
+{
+	char *i;
+	char output[] = ": not found\n";
+
+	i = _itoa(index);
+
+	write(STDERR_FILENO, user, _strlen(user));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, i, _strlen(i));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, cmd, _strlen(cmd));
+	write(STDERR_FILENO, output, _strlen(output));
+	free(i);
+}
