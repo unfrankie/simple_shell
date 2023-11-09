@@ -12,7 +12,7 @@ char *line_interpreter(void)
 	char *l = NULL;
 
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "$ ", 2);
+		write(STDOUT_FILENO, INITIATOR, 2);
 	i = getline(&l, &length, stdin);
 	if (i == -1)
 	{
@@ -30,13 +30,13 @@ char *line_interpreter(void)
 
 char **line_handler(char *l)
 {
-	char *handler = NULL, *mem = NULL, **cmd = NULL, sep[] = " \t\n";
+	char *handler = NULL, *mem = NULL, **cmd = NULL;
 	int i = 0, c = 0;
 
 	if (!l)
 		return (NULL);
 	mem = _strdup(l);
-	handler = strtok(mem, sep);
+	handler = strtok(mem, SEPARATOR);
 	if (handler == NULL)
 	{
 		free(l);
@@ -47,7 +47,7 @@ char **line_handler(char *l)
 	while (handler)
 	{
 		c++;
-		handler = strtok(NULL, sep);
+		handler = strtok(NULL, SEPARATOR);
 	}
 	free(mem);
 	mem = NULL;
@@ -58,11 +58,11 @@ char **line_handler(char *l)
 		l = NULL;
 		return (NULL);
 	}
-	handler = strtok(l, sep);
+	handler = strtok(l, SEPARATOR);
 	while (handler)
 	{
 		cmd[i] = _strdup(handler);
-		handler = strtok(NULL, sep);
+		handler = strtok(NULL, SEPARATOR);
 		i++;
 	}
 	free(l);
@@ -72,53 +72,70 @@ char **line_handler(char *l)
 }
 
 /**
-  * array_clearer - free the array
-  * @a: two dimentionnel array
-  */
-
-void array_clearer(char **a)
-{
-	int i;
-
-	if (!a)
-		return;
-	for (i = 0; a[i]; i++)
-	{
-		free(a[i]);
-		a[i] = NULL;
-	}
-	free(a);
-	a = NULL;
-}
-
-/**
   * shell_exe - exexute command
   * @cmd: command to be executed
   * @var: variable
+  * @index: shell line index
   * Return: status 0 || 127
   */
 
-int shell_exe(char **var, char **cmd)
+int shell_exe(char **var, char **cmd, int index)
 {
 	int stat;
+<<<<<<< HEAD
 	pid_t child;
 
+=======
+	char *c;
+	pid_t child;
+
+	c = path_summoner(cmd[0]);
+	if (!c)
+	{
+		error_index(var[0], index, cmd[0]);
+		array_clearer(cmd);
+		return (127);
+	}
+>>>>>>> 7626370c2c817d7a5539941877dbb5b42eb6be23
 	child = fork();
 	if (child == 0)
 	{
-		if (execve(cmd[0], cmd, environ) == -1)
+		if (execve(c[0], cmd, environ) == -1)
 		{
-			perror(var[0]);
 			array_clearer(cmd);
-			exit(127);
+			free(c);
+			c = NULL;
 		}
 	}
 	else
 	{
 		waitpid(child, &stat, 0);
 		array_clearer(cmd);
+		free(c);
+		c = NULL;
 	}
 	return (WEXITSTATUS(stat));
+}
+
+/**
+  * path_summoner - handle path of a command line
+  * @cmd: command line to be handled
+  * Return: the full path of the command
+  */
+char *path_summoner(char *cmd)
+{
+	int i;
+	struct stat status;
+
+	for (i = 0; cmd[i]; i++)
+	{
+		if (cmd[i] == '/')
+		{
+			if (stat(cmd, &status) == 0)
+				return (_strdup(cmd));
+			return (NULL);
+		}
+	}
 }
 
 /**
@@ -147,6 +164,6 @@ int main(int i, char **var)
 		cmd = line_handler(l);
 		if (!cmd)
 			continue;
-		stat = shell_exe(cmd, var);
+		stat = shell_exe(var, cmd, index);
 	}
 }
