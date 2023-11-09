@@ -75,6 +75,7 @@ void reverse_string(char *str, int len)
   * @index: shell line index
   * @cmd: command to be tested
   */
+
 void print_error(char *user, int index, char *cmd)
 {
 	char *i;
