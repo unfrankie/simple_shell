@@ -101,10 +101,10 @@ void array_clearer(char **a)
 int shell_exe(char **var, char **cmd)
 {
 	int stat;
-	pid_t c;
+	pid_t child;
 
-	c = fork();
-	if (c == 0)
+	child = fork();
+	if (child == 0)
 	{
 		if (execve(cmd[0], cmd, environ) == -1)
 		{
@@ -115,7 +115,7 @@ int shell_exe(char **var, char **cmd)
 	}
 	else
 	{
-		waitpid(c, &stat, 0);
+		waitpid(child, &stat, 0);
 		array_clearer(cmd);
 	}
 	return (WEXITSTATUS(stat));

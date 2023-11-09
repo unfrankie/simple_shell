@@ -89,13 +89,13 @@ char *_strdup(char *s)
 
 	if (s == NULL)
 	return (NULL);
-	length = _strlen(s);
+	while (s[length])
+		length++;
 	p = malloc(sizeof(char) * (length + 1));
-	if (!p)
+	if (p == NULL)
 		return (NULL);
-	for (i = 0; *s != '\0'; s++, i++)
-		p[i] = s[0];
-	p[i++] = '\0';
+	for (i = 0; i <= length; i++)
+		p[i] = s[i];
 	return (p);
 }
 
