@@ -126,7 +126,7 @@ char *path_summoner(char *cmd)
 	{
 		if (cmd[i] == '/')
 		{
-			if (stat(cmd, &st) == 0)
+			if (stat(cmd, &status) == 0)
 				return (_strdup(cmd));
 			return (NULL);
 		}
@@ -159,6 +159,6 @@ int main(int i, char **var)
 		cmd = line_handler(l);
 		if (!cmd)
 			continue;
-		stat = shell_exe(cmd, var);
+		stat = shell_exe(var, cmd, index);
 	}
 }
