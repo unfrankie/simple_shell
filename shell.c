@@ -113,6 +113,27 @@ int shell_exe(char **var, char **cmd, int index)
 }
 
 /**
+  * path_summoner - handle path of a command line
+  * @cmd: command line to be handled
+  * Return: the full path of the command
+  */
+char *path_summoner(char *cmd)
+{
+	int i;
+	struct stat status;
+
+	for (i = 0; cmd[i]; i++)
+	{
+		if (cmd[i] == '/')
+		{
+			if (stat(cmd, &st) == 0)
+				return (_strdup(cmd));
+			return (NULL);
+		}
+	}
+}
+
+/**
   * main - shell main program
   * @var: variable for error
   * @i: unused variable
