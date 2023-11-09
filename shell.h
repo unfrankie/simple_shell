@@ -10,7 +10,8 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <fcntl.h>
-
+#define SEPARATOR " \n\t"
+#define INITIATOR "$ "
 extern char **environ;
 
 char *_strcat(char *dest, char *src);
