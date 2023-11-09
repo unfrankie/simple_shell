@@ -23,6 +23,7 @@ char **line_handler(char *l);
 char *line_interpreter(void);
 void array_clearer(char **a);
 int shell_exe(char **var, char **cmd, int index);
+void error_index(char *user, int index, char *cmd);
 
 
 
