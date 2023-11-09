@@ -76,7 +76,7 @@ void reverse_string(char *str, int len)
   * @cmd: command to be tested
   */
 
-void print_error(char *user, int index, char *cmd)
+void error_index(char *user, int index, char *cmd)
 {
 	char *i;
 	char output[] = ": not found\n";
