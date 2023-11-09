@@ -75,28 +75,39 @@ char **line_handler(char *l)
   * shell_exe - exexute command
   * @cmd: command to be executed
   * @var: variable
+  * @index: shell line index
   * Return: status 0 || 127
   */
 
-int shell_exe(char **var, char **cmd)
+int shell_exe(char **var, char **cmd, int index)
 {
 	int stat;
-	pid_t c;
+	char *c;
+	pid_t child;
 
-	c = fork();
-	if (c == 0)
+	c = path_summoner(cmd[0]);
+	if (!c)
 	{
-		if (execve(cmd[0], cmd, environ) == -1)
+		error_index(var[0], index, cmd[0]);
+		array_clearer(cmd);
+		return (127);
+	}
+	child = fork();
+	if (child == 0)
+	{
+		if (execve(c[0], cmd, environ) == -1)
 		{
-			perror(var[0]);
 			array_clearer(cmd);
-			exit(127);
+			free(c);
+			c = NULL;
 		}
 	}
 	else
 	{
-		waitpid(c, &stat, 0);
+		waitpid(child, &stat, 0);
 		array_clearer(cmd);
+		free(c);
+		c = NULL;
 	}
 	return (WEXITSTATUS(stat));
 }
