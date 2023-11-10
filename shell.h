@@ -32,12 +32,6 @@ void reverse_string(char *str, int len);
 char main(char **var);
 input file_summoner(char **fi);
 
-typedef struct input
-{
-	char *l[1024];
-	int length;
-} input;
-
 typedef struct directory
 {
 	char *d;
