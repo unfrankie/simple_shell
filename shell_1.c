@@ -11,12 +11,12 @@ int main(int i, char **var)
 {
 	char **cmd = NULL, *l = NULL, *trail = NULL;
 	int st = 0, index = 0, cycle = 1, j = 0;
-	file_input in;
+	input in;
 	
 	if (i == 2)
 	{
 		in = file_summoner(var);
-		cycle = in.len;
+		cycle = in.length;
 	}
 	while (cycle)
 	{
