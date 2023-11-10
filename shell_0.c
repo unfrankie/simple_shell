@@ -82,10 +82,6 @@ char **line_handler(char *l)
 int shell_exe(char **var, char **cmd, int index)
 {
 	int stat;
-<<<<<<< HEAD
-	pid_t child;
-
-=======
 	char *c;
 	pid_t child;
 
@@ -96,11 +92,10 @@ int shell_exe(char **var, char **cmd, int index)
 		array_clearer(cmd);
 		return (127);
 	}
->>>>>>> 7626370c2c817d7a5539941877dbb5b42eb6be23
 	child = fork();
 	if (child == 0)
 	{
-		if (execve(c[0], cmd, environ) == -1)
+		if (execve(c, cmd, environ) == -1)
 		{
 			array_clearer(cmd);
 			free(c);
@@ -122,10 +117,12 @@ int shell_exe(char **var, char **cmd, int index)
   * @cmd: command line to be handled
   * Return: the full path of the command
   */
+
 char *path_summoner(char *cmd)
 {
 	int i;
 	struct stat status;
+	char *trail, *cmd_0, *folder;
 
 	for (i = 0; cmd[i]; i++)
 	{
@@ -136,6 +133,30 @@ char *path_summoner(char *cmd)
 			return (NULL);
 		}
 	}
+	trail = env_summoner("PATH");
+	if (!trail)
+		return (NULL);
+	folder = strtok(trail, ":");
+	while (folder)
+	{
+		cmd_0 = malloc(_strlen(folder) + _strlen(cmd) + 2);
+		if (cmd_0)
+		{
+			_strcpy(cmd_0, folder);
+			_strcat(cmd_0, "/");
+			_strcat(cmd_0, cmd);
+			if (stat(cmd_0, &status) == 0)
+			{
+				free(trail);
+				return (cmd_0);
+			}
+			free(cmd_0);
+			cmd_0 = NULL;
+			folder = (":");
+		}
+	}
+	free(trail);
+	return (NULL);
 }
 
 /**
@@ -149,7 +170,7 @@ int main(int i, char **var)
 {
 	char **cmd = NULL;
 	char *l = NULL;
-	int stat = 0;
+	int st = 0, index = 0;
 	(void) i;
 
 	while (1)
@@ -159,11 +180,11 @@ int main(int i, char **var)
 		{
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
-			return (stat);
+			return (st);
 		}
 		cmd = line_handler(l);
 		if (!cmd)
 			continue;
-		stat = shell_exe(var, cmd, index);
+		st = shell_exe(var, cmd, index);
 	}
 }
