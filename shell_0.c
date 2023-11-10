@@ -115,14 +115,15 @@ int shell_exe(char **var, char **cmd, int index)
 /**
   * path_summoner - handle path of a command line
   * @cmd: command line to be handled
-  * Return: the full path of the command
+  * Return: command path
   */
 
 char *path_summoner(char *cmd)
 {
 	int i;
+	directory *list_d, *mem;
 	struct stat status;
-	char *trail, *cmd_0, *folder;
+	char *trail;
 
 	for (i = 0; cmd[i]; i++)
 	{
@@ -133,29 +134,29 @@ char *path_summoner(char *cmd)
 			return (NULL);
 		}
 	}
-	trail = env_summoner("PATH");
-	if (!trail)
-		return (NULL);
-	folder = strtok(trail, ":");
-	while (folder)
-	{
-		cmd_0 = malloc(_strlen(folder) + _strlen(cmd) + 2);
-		if (cmd_0)
+	list_d = dir_builder();
+	mem = list_d;
+	while (mem)
 		{
-			_strcpy(cmd_0, folder);
-			_strcat(cmd_0, "/");
-			_strcat(cmd_0, cmd);
-			if (stat(cmd_0, &status) == 0)
+			trail = malloc(_strlen(mem->d) + _strlen(cmd) + 2);
+			if (!trail)
 			{
-				free(trail);
-				return (cmd_0);
+				free_list(list_d);
+				return (NULL);
 			}
-			free(cmd_0);
-			cmd_0 = NULL;
-			folder = (":");
+			_strcpy(trail, mem->d);
+			_strcat(trail, "/");
+			_strcat(trail, cmd);
+			if (stat(trail, &status) == 0)
+			{
+				free_list(list_d);
+				return (trail);
+			}
+			free(trail);
+			trail = NULL;
+			mem = mem->next;
 		}
-	}
-	free(trail);
+	free_list(list_d);
 	return (NULL);
 }
 
