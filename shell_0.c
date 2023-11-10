@@ -160,31 +160,27 @@ char *path_summoner(char *cmd)
 }
 
 /**
-  * main - shell main program
-  * @var: variable for error
-  * @i: unused variable
-  * Return: status
+  * env_summoner - display environment of name path
+  * @envstr: environment string
+  * Return: environment path
   */
 
-int main(int i, char **var)
+char *env_summoner(char *envstr)
 {
-	char **cmd = NULL;
-	char *l = NULL;
-	int st = 0, index = 0;
-	(void) i;
+	char *name, *temp, *path;
+	int i;
 
-	while (1)
+	for (i = 0; environ[i]; i++)
 	{
-		l = line_interpreter();
-		if (l == NULL)
+		temp = _strdup(environ[i]);
+		name = strtok(temp, "=");
+		if (_strcmp(name, envstr) == 0)
 		{
-			if (isatty(STDIN_FILENO))
-				write(STDOUT_FILENO, "\n", 1);
-			return (st);
+			path = _strdup(strtok(NULL, "\n"));
+			free(temp);
+			return (path);
 		}
-		cmd = line_handler(l);
-		if (!cmd)
-			continue;
-		st = shell_exe(var, cmd, index);
+		free(temp);
 	}
+	return (NULL);
 }

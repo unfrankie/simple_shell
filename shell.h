@@ -27,7 +27,9 @@ void error_index(char *user, int index, char *cmd);
 char *_itoa(int n);
 int _atoi(char *str);
 char *path_summoner(char *cmd);
+char *env_summoner(char *envstr);
 void reverse_string(char *str, int len);
+int main(int i, char **var);
 
 #endif
 
