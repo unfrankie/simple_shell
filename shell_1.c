@@ -79,13 +79,15 @@ list_directory *dir_builder(void)
 /**
   * main - shell main program
   * @var: variable
+  * @i: unused integer
   * Return: status
   */
 
-char main(char **var)
+int main(int i, char **var)
 {
 	char **cmd = NULL, *l = NULL, *trail = NULL;
 	int st = 0, index = 0;
+	(void) i;
 
 	while (1)
 	{

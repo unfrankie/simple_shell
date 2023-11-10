@@ -77,7 +77,7 @@ char *_strcpy(char *dest, char *src)
 
 /**
   * _strdup - duplicate string
-  * @s: charcter
+  * @str: string pointer
   * Return: pointer
   */
 

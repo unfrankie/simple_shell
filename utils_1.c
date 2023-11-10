@@ -70,7 +70,7 @@ int _atoi(char *str)
   * @len: the length of the string
   * Return: (void).
   */
-  
+
 void reverse_string(char *str, int len)
 {
 	char temp;

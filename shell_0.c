@@ -12,7 +12,7 @@ char *line_interpreter(void)
 
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, INITIATOR, 2);
-	if(getline(&l, &length, stdin) == -1)
+	if (getline(&l, &length, stdin) == -1)
 	{
 		free(l);
 		return (NULL);
@@ -39,8 +39,7 @@ char **line_handler(char *l)
 	{
 		free(l);
 		l = NULL;
-		free(mem);
-		mem = NULL;
+		free(mem), mem = NULL;
 		return (NULL);
 	}
 	while (handler)
@@ -137,25 +136,25 @@ char *path_summoner(char *cmd)
 	list_d = dir_builder();
 	mem = list_d;
 	while (mem)
+	{
+		trail = malloc(_strlen(mem->d) + _strlen(cmd) + 2);
+		if (!trail)
 		{
-			trail = malloc(_strlen(mem->d) + _strlen(cmd) + 2);
-			if (!trail)
-			{
-				free_list(list_d);
-				return (NULL);
-			}
-			_strcpy(trail, mem->d);
-			_strcat(trail, "/");
-			_strcat(trail, cmd);
-			if (stat(trail, &status) == 0)
-			{
-				free_list(list_d);
-				return (trail);
-			}
-			free(trail);
-			trail = NULL;
-			mem = mem->next;
+			free_list(list_d);
+			return (NULL);
 		}
+		_strcpy(trail, mem->d);
+		_strcat(trail, "/");
+		_strcat(trail, cmd);
+		if (stat(trail, &status) == 0)
+		{
+			free_list(list_d);
+			return (trail);
+		}
+		free(trail);
+		trail = NULL;
+		mem = mem->next;
+	}
 	free_list(list_d);
 	return (NULL);
 }

@@ -14,6 +14,12 @@
 #define INITIATOR "$ "
 extern char **environ;
 
+/**
+  * struct list_directory - directory linked list
+  * @d: directory
+  * @next: next node pointer
+  */
+
 typedef struct list_directory
 {
 	char *d;
