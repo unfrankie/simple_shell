@@ -9,31 +9,30 @@
 
 list_directory *add_node_end(list_directory **head, const char *str)
 {
-	list_directory *l;
-	int i = 0;
-	list_directory *l1 = *head;
+	list_directory *new, *mem;
 
-	while (str[i])
-		i++;
-	l = malloc(sizeof(list_t));
-	if (!l)
+	if (head == NULL || str == NULL)
+		return (NULL);
+	new = malloc(sizeof(list_directory));
+	if (new == NULL)
+		return (NULL);
+	new->d = _strdup(str);
+	if (new->d == NULL)
 	{
+		free(new);
 		return (NULL);
 	}
-	l->str = strdup(str);
-	l->len = i;
-	l->next = NULL;
+	new->next = NULL;
 	if (*head == NULL)
 	{
-		*head = l;
-		return (l);
+		*head = new;
+		return (*head);
 	}
-	while (l1->next)
-		l1 = l1->next;
-
-	l1->next = l;
-
-	return (l);
+	mem = *head;
+	while (mem->next != NULL)
+		mem = mem->next;
+	mem->next = new;
+	return (*head);
 }
 
 /**
@@ -48,7 +47,7 @@ void free_list(list_directory *head)
 	while (head)
 	{
 		l = head->next;
-		free(head->str);
+		free(head->d);
 		free(head);
 		head = l;
 	}
@@ -64,7 +63,7 @@ list_directory *dir_builder(void)
 	list_directory *head = NULL;
 	char *path, *func;
 
-	path = env_summoner("PATH");
+	path = env_summoner("INITIATOR");
 	if (!path)
 		return (NULL);
 	func = strtok(path, ":");
