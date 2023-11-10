@@ -55,6 +55,29 @@ void free_list(directory *head)
 }
 
 /**
+  * dir_builder - build a linked list of directory path
+  * Return: linked list of directory path
+  */
+
+directory *dir_builder(void)
+{
+	directory *head = NULL;
+	char *path, *func;
+
+	path = env_summoner("PATH");
+	if (!path)
+		return (NULL);
+	func = strtok(path, ":");
+	while (func)
+	{
+		add_node_end(&head, func);
+		func = strtok(NULL, ":");
+	}
+	free(path);
+	return (head);
+}
+
+/**
   * main - shell main program
   * @var: variable
   * Return: status
