@@ -7,26 +7,15 @@
   * Return: status
   */
 
-int main(int i, char **var)
+char main(char **var)
 {
 	char **cmd = NULL, *l = NULL, *trail = NULL;
-	int st = 0, index = 0, cycle = 1, j = 0;
-	input in;
-	
-	if (i == 2)
+	int st = 0, index = 0;
+	(void) i;
+
+	while (1)
 	{
-		in = file_summoner(var);
-		cycle = in.length;
-	}
-	while (cycle)
-	{
-		if (i == 2)
-		{
-			cycle--;
-			l = in.l[j++];
-		}
-		else
-			l = line_interpreter();
+		l = line_interpreter();
 		if (l == NULL)
 		{
 			if (isatty(STDIN_FILENO))
@@ -37,6 +26,8 @@ int main(int i, char **var)
 		cmd = line_handler(l);
 		if (!cmd)
 			continue;
-		st = shell_exe(var, cmd, index);
+		else
+			st = shell_exe(var, cmd, index);
 	}
+	return (0);
 }
