@@ -9,18 +9,29 @@
 
 int main(int i, char **var)
 {
-	char **cmd = NULL;
-	char *l = NULL;
-	int st = 0, index = 0;
-	(void) i;
-
-	while (1)
+	char **cmd = NULL, *l = NULL, *trail = NULL;
+	int st = 0, index = 0, cycle = 1, j = 0;
+	file_input in;
+	
+	if (i == 2)
 	{
-		l = line_interpreter();
+		in = file_summoner(var);
+		cycle = in.len;
+	}
+	while (cycle)
+	{
+		if (i == 2)
+		{
+			cycle--;
+			l = in.l[j++];
+		}
+		else
+			l = line_interpreter();
 		if (l == NULL)
 		{
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
+			free(trail);
 			return (st);
 		}
 		cmd = line_handler(l);
