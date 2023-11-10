@@ -2,8 +2,7 @@
 
 /**
   * main - shell main program
-  * @var: variable for error
-  * @i: unused variable
+  * @var: variable
   * Return: status
   */
 
