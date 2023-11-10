@@ -81,21 +81,20 @@ char *_strcpy(char *dest, char *src)
   * Return: pointer
   */
 
-char *_strdup(char *s)
+char *_strdup(const char *str)
 {
 	char *p;
-	int length;
-	int i;
+	int i, length = 0;
 
-	if (s == NULL)
-	return (NULL);
-	while (s[length])
+	if (str == NULL)
+		return (NULL);
+	while (str[length])
 		length++;
 	p = malloc(sizeof(char) * (length + 1));
 	if (p == NULL)
 		return (NULL);
 	for (i = 0; i <= length; i++)
-		p[i] = s[i];
+		p[i] = str[i];
 	return (p);
 }
 
