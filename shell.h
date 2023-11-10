@@ -14,10 +14,16 @@
 #define INITIATOR "$ "
 extern char **environ;
 
+typedef struct list_directory
+{
+	char *d;
+	struct list_directory *next;
+} list_directory;
+
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);
-char *_strdup(char *s);
+char *_strdup(const char *s);
 int _strlen(char *s);
 char **line_handler(char *l);
 char *line_interpreter(void);
@@ -29,18 +35,10 @@ int _atoi(char *str);
 char *path_summoner(char *cmd);
 char *env_summoner(char *envstr);
 void reverse_string(char *str, int len);
-char main(char **var);
+int main(int i, char **var);
 list_directory *add_node_end(list_directory **head, const char *str);
 void free_list(list_directory *head);
 list_directory *dir_builder(void);
-
-
-typedef struct list_directory
-{
-	char *d;
-	struct list_directory *next;
-} list_directory;
-
 
 
 #endif
