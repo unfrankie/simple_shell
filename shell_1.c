@@ -7,11 +7,11 @@
   * Return: the address of the new element || NULL
   */
 
-directory *add_node_end(directory **head, const char *str)
+list_directory *add_node_end(list_directory **head, const char *str)
 {
-	directory *l;
+	list_directory *l;
 	int i = 0;
-	directory *l1 = *head;
+	list_directory *l1 = *head;
 
 	while (str[i])
 		i++;
@@ -41,9 +41,9 @@ directory *add_node_end(directory **head, const char *str)
   * @head: head pointer
   */
 
-void free_list(directory *head)
+void free_list(list_directory *head)
 {
-	directory *l;
+	list_directory *l;
 
 	while (head)
 	{
@@ -59,9 +59,9 @@ void free_list(directory *head)
   * Return: linked list of directory path
   */
 
-directory *dir_builder(void)
+list_directory *dir_builder(void)
 {
-	directory *head = NULL;
+	list_directory *head = NULL;
 	char *path, *func;
 
 	path = env_summoner("PATH");
@@ -87,7 +87,6 @@ char main(char **var)
 {
 	char **cmd = NULL, *l = NULL, *trail = NULL;
 	int st = 0, index = 0;
-	(void) i;
 
 	while (1)
 	{
