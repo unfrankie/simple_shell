@@ -30,16 +30,16 @@ char *path_summoner(char *cmd);
 char *env_summoner(char *envstr);
 void reverse_string(char *str, int len);
 char main(char **var);
-directory *add_node_end(directory **head, const char *str);
-void free_list(directory *head);
-directory *dir_builder(void);
+list_directory *add_node_end(list_directory **head, const char *str);
+void free_list(list_directory *head);
+list_directory *dir_builder(void);
 
 
-typedef struct directory
+typedef struct list_directory
 {
 	char *d;
-	struct directory *next;
-} directory;
+	struct list_directory *next;
+} list_directory;
 
 
 
