@@ -8,13 +8,11 @@
 char *line_interpreter(void)
 {
 	size_t length = 0;
-	ssize_t i;
 	char *l = NULL;
 
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, INITIATOR, 2);
-	i = getline(&l, &length, stdin);
-	if (i == -1)
+	if(getline(&l, &length, stdin) == -1)
 	{
 		free(l);
 		return (NULL);
@@ -33,16 +31,17 @@ char **line_handler(char *l)
 	char *handler = NULL, *mem = NULL, **cmd = NULL;
 	int i = 0, c = 0;
 
-	if (!l)
+	if (l == NULL)
 		return (NULL);
 	mem = _strdup(l);
 	handler = strtok(mem, SEPARATOR);
-	if (handler == NULL)
+	if (!handler)
 	{
 		free(l);
 		l = NULL;
 		free(mem);
 		mem = NULL;
+		return (NULL);
 	}
 	while (handler)
 	{
@@ -56,18 +55,19 @@ char **line_handler(char *l)
 	{
 		free(l);
 		l = NULL;
+		free(mem);
+		mem = NULL;
 		return (NULL);
 	}
 	handler = strtok(l, SEPARATOR);
 	while (handler)
 	{
-		cmd[i] = _strdup(handler);
+		cmd[i++] = _strdup(handler);
 		handler = strtok(NULL, SEPARATOR);
-		i++;
 	}
+	cmd[i] = NULL;
 	free(l);
 	l = NULL;
-	cmd[i] = NULL;
 	return (cmd);
 }
 
@@ -167,20 +167,20 @@ char *path_summoner(char *cmd)
 
 char *env_summoner(char *envstr)
 {
-	char *name, *temp, *path;
+	char *name, *mem, *path;
 	int i;
 
 	for (i = 0; environ[i]; i++)
 	{
-		temp = _strdup(environ[i]);
-		name = strtok(temp, "=");
+		mem = _strdup(environ[i]);
+		name = strtok(mem, "=");
 		if (_strcmp(name, envstr) == 0)
 		{
 			path = _strdup(strtok(NULL, "\n"));
-			free(temp);
+			free(mem);
 			return (path);
 		}
-		free(temp);
+		free(mem);
 	}
 	return (NULL);
 }
