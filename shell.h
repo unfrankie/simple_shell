@@ -30,6 +30,21 @@ char *path_summoner(char *cmd);
 char *env_summoner(char *envstr);
 void reverse_string(char *str, int len);
 int main(int i, char **var);
+input file_summoner(char **fi);
+
+typedef struct input
+{
+	char *l[1024];
+	int length;
+} input;
+
+typedef struct directory
+{
+	char *d;
+	struct directory *next;
+} directory;
+
+
 
 #endif
 
