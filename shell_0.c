@@ -121,7 +121,7 @@ int shell_exe(char **var, char **cmd, int index)
 char *path_summoner(char *cmd)
 {
 	int i;
-	directory *list_d, *mem;
+	list_directory *list_d, *mem;
 	struct stat status;
 	char *trail;
 
