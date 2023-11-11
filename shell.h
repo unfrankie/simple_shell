@@ -45,6 +45,10 @@ int main(int i, char **var);
 list_directory *add_node_end(list_directory **head, const char *str);
 void free_list(list_directory *head);
 list_directory *dir_builder(void);
+int builtin_1(char *cmd);
+void builtinner(char **bicmd, char **var, int *exit_v, int index);
+void env_func(char **cmd, int *exit_v);
+void exit_func(char **cmd, int *exit_v);
 
 
 #endif

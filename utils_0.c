@@ -9,19 +9,17 @@
 
 char *_strcat(char *dest, char *src)
 {
-	int i, j;
+	char *p = dest;
 
-	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
-		i++;
-	while (src[j] != '\0')
+	while (*p)
+		p++;
+	while (*src)
 	{
-		dest[i] = src[j];
-		j++;
-		i++;
+		*p = *src;
+		p++;
+		src++;
 	}
-	dest[i] = '\0';
+	*p = '\0';
 	return (dest);
 }
 
@@ -34,16 +32,18 @@ char *_strcat(char *dest, char *src)
 
 int _strcmp(char *s1, char *s2)
 {
-	while (*s1 == *s2)
+	int i;
+
+	i = (int)*s1 - (int)*s2;
+	while (*s1)
 	{
-		if (*s1 == '\0')
-		{
-			return (0);
-		}
+		if (*s1 != *s2)
+			break;
 		s1++;
 		s2++;
+		i = (int)*s1 - (int)*s2;
 	}
-	return (*s1 - *s2);
+	return (i);
 }
 
 /**
@@ -57,21 +57,14 @@ int _strcmp(char *s1, char *s2)
 
 char *_strcpy(char *dest, char *src)
 {
-	int l, i;
+	int i = 0;
 
-	l = 0;
-
-	while (src[l] != '\0')
-	{
-		l++;
-	}
-
-	for (i = 0; i < l; i++)
+	while (src[i])
 	{
 		dest[i] = src[i];
+		i++;
 	}
 	dest[i] = '\0';
-
 	return (dest);
 }
 
@@ -107,10 +100,9 @@ char *_strdup(const char *str)
 
 int _strlen(char *s)
 {
-	int n, i;
+	int i = 0;
 
-	i = 0;
-	for (n = 0; s[n] != '\0'; n++)
-	i++;
+	while (s[i])
+		i++;
 	return (i);
 }
