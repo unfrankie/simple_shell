@@ -96,9 +96,9 @@ int shell_exe(char **var, char **cmd, int index)
 	{
 		if (execve(c, cmd, environ) == -1)
 		{
-			array_clearer(cmd);
 			free(c);
 			c = NULL;
+			array_clearer(cmd);
 		}
 	}
 	else
