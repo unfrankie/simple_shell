@@ -120,43 +120,43 @@ int shell_exe(char **var, char **cmd, int index)
 char *path_summoner(char *cmd)
 {
 	int i;
-	struct stat structer_0;
-	char *trail, *c, *directory;
+	list_directory *list_d, *mem;
+	struct stat status;
+	char *trail;
 
 	for (i = 0; cmd[i]; i++)
 	{
 		if (cmd[i] == '/')
 		{
-			if (stat(cmd, &structer_0) == 0)
+			if (stat(cmd, &status) == 0)
 				return (_strdup(cmd));
 			return (NULL);
 		}
 	}
-	
-	trail = env_summoner("PATH");
-	if (!trail)
-		return (NULL);
-	directory = strtok(trail, ":");
-	while(directory)
+	list_d = dir_builder();
+	mem = list_d;
+	while (mem)
 	{
-		c = malloc(_strlen(directory) + _strlen(cmd) + 2);
-		if (c)
+		trail = malloc(_strlen(mem->d) + _strlen(cmd) + 2);
+		if (!trail)
 		{
-			_strcpy(c, directory);
-			_strcat(c, "/");
-			_strcat(c, cmd);
-			if (stat(c, &structer_0) == 0)
-			{
-				free(trail);
-				return(c);
-			}
-			free(c);
-			c = NULL;
-			directory = strtok(NULL, ":");
+			free_list(list_d);
+			return (NULL);
 		}
+		_strcpy(trail, mem->d);
+		_strcat(trail, "/");
+		_strcat(trail, cmd);
+		if (stat(trail, &status) == 0)
+		{
+			free_list(list_d);
+			return (trail);
+		}
+		free(trail);
+		trail = NULL;
+		mem = mem->next;
 	}
-	free(trail);
-	return(NULL);
+	free_list(list_d);
+	return (NULL);
 }
 
 /**
@@ -181,7 +181,6 @@ char *env_summoner(char *envstr)
 			return (path);
 		}
 		free(mem);
-		mem = NULL;
 	}
 	return (NULL);
 }
