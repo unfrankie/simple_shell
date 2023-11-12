@@ -92,6 +92,7 @@ int main(int i, char **var)
 			free(trail);
 			return (st);
 		}
+		index++;
 		cmd = line_handler(l);
 		if (!cmd)
 			continue;
